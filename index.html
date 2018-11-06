@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<head>
+<style>
+
+	body{	
+		background: url(fondoFPC.jpg);
+		background-attachment: fixed;
+		background-repeat: repeat;
+		background-size: 100%;
+		font-family: Arial;
+		margin: auto;
+		width: 90%;
+		max-width: 1100px;
+		margin: 20px auto;	
+	}
+
+	.node circle {
+		fill: #B6ABE8;
+		stroke: #E079FF;
+		stroke-width: 3px;
+	}
+
+	.node text {
+		font: 18px sans-serif;
+	}
+
+	.link {
+		fill: none;
+		stroke: #B6ABE8;
+		stroke-width: 2px;
+	}
+
+	div, svg {	
+		text-align: justify;
+		font-family: Arial;
+		background: rgba(255, 255, 255, 0.8);
+		display: block;
+	    margin: auto;
+	}
+
+	h1 {
+		text-align: center;
+		font-family: Arial;		
+		background: rgba(255, 255, 255, 0.8);
+	}
+
+	h2 {
+		text-align: center;
+		font-family: Arial;			
+	}
+
+	p {
+		text-align: justify;				
+	}
+
+</style>	
+
+<title>Campeonatos FPC</title>
+
+</head>
+
+<body>	
+	<h1>CAMPEONATOS EN EL FUTBOL PROFESIONAL COLOMBIANO POR DEPARTAMENTO Y EQUIPO</h1>
+	<div>
+		<p>A continuación se muestra una visualización en donde se encuentran los años en los que cada equipo (actualmente en la categoría A) fue campeón o sub campeón en la liga Aguila y copa Aguila, por favor navegue entre los diferentes niveles de la gráfica.
+		</br></br>
+		Los nodos que se encuentran de color blanco no cuentan con más información, mientras que los nodos que se encuentran de color azul claro, significa que cuentan con otro nivel de campeonatos.
+		</p>
+	</div>
+	<!-- load the d3.js library -->	
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+	<script>
+
+		var treeData =
+		  {
+			"name" : "FPC",
+		  	"children": [
+		    { "name" : "Antioquia",
+		      "children": [
+		        {"name" : "Atlético Nacional",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 1954},
+						    			{"name" : 1973},
+						    			{"name" : 1976},
+						    			{"name" : 1981},
+						    			{"name" : 1991},
+						    			{"name" : 1994},
+						    			{"name" : 1999},
+						    			{"name" : "2005-I"},
+						    			{"name" : "2007-I"},
+						    			{"name" : "2007-II"},
+						    			{"name" : "2011-I"},
+						    			{"name" : "2013-I"},
+						    			{"name" : "2013-II"},
+						    			{"name" : "2014-I"},
+						    			{"name" : "2015-II"},
+						    			{"name" : "2017-I"}
+						    		]
+						    	},
+				    			{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 1955},
+						    			{"name" : 1965},
+						    			{"name" : 1971},
+						    			{"name" : 1974},
+						    			{"name" : 1988},
+						    			{"name" : 1990},
+						    			{"name" : 1992},
+						    			{"name" : "2002-I"},
+						    			{"name" : "2004-I"},
+						    			{"name" : "2004-II"},
+						    			{"name" : "2018-I"}
+						    		]
+						    	}
+				    		]
+				    	},
+		    			{"name" : "Copa",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 2012},
+						    			{"name" : 2013},
+						    			{"name" : 2016},
+						    			{"name" : 2018}				    			
+						    		]}
+				    		]
+				    	}
+		    		]},
+		        {"name" : "Envigado F.C"},
+		        {"name" : "Independiente Medellín",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 1955},
+						    			{"name" : 1957},
+						    			{"name" : "2002-II"},
+						    			{"name" : "2004-I"},
+						    			{"name" : "2009-II"},
+						    			{"name" : "2016-I"}	    			
+						    		]},
+				    			{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 1959},
+						    			{"name" : 1961},
+						    			{"name" : 1966},
+						    			{"name" : 1993},
+						    			{"name" : 2001},
+						    			{"name" : "2008-II"},
+						    			{"name" : "2012-II"},
+						    			{"name" : "2014-II"},
+						    			{"name" : "2015-I"}
+						    		]
+						    	}
+				    		]
+				    	},
+		    			{"name" : "Copa",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 1981}
+						    		]
+						    	},
+						    	{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 2017}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]
+		    	},
+		        {"name" : "Itagüí Leones"},
+		        {"name" : "Rionegro Águilas"}
+		      ]
+		    },
+		    { "name" : "Atlántico",
+		      "children": [
+		        {"name" : "Junior",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 1977},
+						    			{"name" : 1980},
+						    			{"name" : 1993},
+						    			{"name" : 1995},
+						    			{"name" : "2004-II"},
+						    			{"name" : "2010-I"},
+						    			{"name" : "2011-II"}		    			
+						    		]},
+				    			{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 1948},
+						    			{"name" : 1970},
+						    			{"name" : 1983},
+						    			{"name" : 2000},
+						    			{"name" : "2003-I"},
+						    			{"name" : "2009-I"},
+						    			{"name" : "2014-I"},
+						    			{"name" : "2015-II"},
+						    			{"name" : "2016-I"}
+						    		]
+						    	}
+				    		]
+				    	},
+		    			{"name" : "Copa",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 2015},
+						    			{"name" : 2017}
+						    		]
+						    	},
+						    	{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 2016}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]
+		    	}
+		      ]
+		    },
+		    { "name" : "Bogotá",
+		      "children": [
+		        {"name" : "La Equidad",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [		    			
+				    			{"name" : "Sub Campeón",
+						    		"children" : [	
+						    			{"name" : "2007-II"},
+						    			{"name" : "2010-I"},
+						    			{"name" : "2011-I"}
+						    		]
+						    	}
+				    		]
+				    	},
+		    			{"name" : "Copa",
+				    		"children" : [		    			
+						    	{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 2008}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]
+		    	},
+		        {"name" : "Millonarios",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 1949},
+						    			{"name" : 1951},
+						    			{"name" : 1952},
+						    			{"name" : 1953},
+						    			{"name" : 1959},
+						    			{"name" : 1961},
+						    			{"name" : 1962},
+						    			{"name" : 1963},
+						    			{"name" : 1964},
+						    			{"name" : 1972},
+						    			{"name" : 1978},
+						    			{"name" : 1987},
+						    			{"name" : 1988},
+						    			{"name" : "2012-II"},
+						    			{"name" : "2017-II"}				    			
+						    		]},
+				    			{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 1950},
+						    			{"name" : 1956},
+						    			{"name" : 1958},
+						    			{"name" : 1967},
+						    			{"name" : 1973},
+						    			{"name" : 1975},
+						    			{"name" : 1984},
+						    			{"name" : 1994},
+						    			{"name" : "1995/96"}				    			
+						    		]
+						    	}
+				    		]
+				    	},
+		    			{"name" : "Copa",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 1953},
+						    			{"name" : 2011}
+						    		]
+						    	},
+						    	{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 2013}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]
+		    	},
+		        {"name" : "Santa Fe",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 1948},
+						    			{"name" : 1958},
+						    			{"name" : 1960},
+						    			{"name" : 1966},
+						    			{"name" : 1971},
+						    			{"name" : 1975},
+						    			{"name" : "2012-I"},
+						    			{"name" : "2014-II"},
+						    			{"name" : "2016-II"}				    			
+						    		]},
+				    			{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 1963},
+						    			{"name" : 1979},
+						    			{"name" : "2005-I"},
+						    			{"name" : "2013-I"},
+						    			{"name" : "2017-II"}				    			
+						    		]
+						    	}
+				    		]
+				    	},
+		    			{"name" : "Copa",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 2009}
+						    		]
+						    	},
+						    	{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 1951},
+						    			{"name" : 2014},
+						    			{"name" : 2015}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]
+		    	}
+		      ]
+		    },
+		    { "name" : "Boyaca",
+		      "children": [
+		        {"name" : "Patriotas Boyacá"},
+		        {"name" : "Boyacá Chicó",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [		    			
+				    			{"name" : "Sub Campeón",
+						    		"children" : [	
+						    			{"name" : "2008-I"}
+						    		]
+						    	}
+				    		]
+				    	},
+		    			{"name" : "Copa",
+				    		"children" : [		    			
+						    	{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 2011}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]
+		    	}
+		      ]
+		    },
+		    { "name" : "Caldas",
+		      "children": [
+		        {"name" : "Once Caldas",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 1950},
+						    			{"name" : "2003-I"},
+						    			{"name" : "2009-I"},
+						    			{"name" : "2010-II"}   			
+						    		]},
+				    			{"name" : "Sub Campeón",
+						    		"children" : [				    			
+						    			{"name" : 1998},
+						    			{"name" : "2011-II"}
+						    		]
+						    	}
+				    		]
+				    	},
+		    			{"name" : "Copa",
+				    		"children" : [		    			
+						    	{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 2008},
+						    			{"name" : 2018}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]}
+		      ]
+		    },
+		    { "name" : "Córdoba",
+		      "children": [
+		        {"name" : "Jaguares"}
+		      ]
+		    },
+		    { "name" : "Huila",
+		      "children": [
+		        {"name" : "Atlético Huila",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [		    			
+				    			{"name" : "Sub Campeón",
+						    		"children" : [	
+						    			{"name" : "2007-I"},
+						    			{"name" : "2009-II"}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]
+		    	}
+		      ]
+		    },
+		    { "name" : "Nariño",
+		      "children": [
+		        {"name" : "Deportivo Pasto",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [				    			
+						    			{"name" : "2006-I"}   			
+						    		]},
+				    			{"name" : "Sub Campeón",
+						    		"children" : [	
+						    			{"name" : "2002-II"},
+						    			{"name" : "2012-I"}				    			
+						    		]
+						    	}
+				    		]
+				    	},
+		    			{"name" : "Copa",
+				    		"children" : [		    			
+						    	{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 2009},
+						    			{"name" : 2012}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]
+		    	}
+		      ]
+		    },
+		    { "name" : "Santander",
+		      "children": [
+		        {"name" : "Alianza Petrolera"},
+		        {"name" : "Atlético Bucaramanga",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [		    			
+				    			{"name" : "Sub Campeón",
+						    		"children" : [	
+						    			{"name" : "1996/97"}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]}
+		      ]
+		    },
+		    { "name" : "Tolima",
+		      	"children": [
+			        {"name" : "Deportes Tolima",
+			    		"children" : [
+			    			{"name" : "Liga",
+					    		"children" : [
+					    			{"name" : "Campeón",
+							    		"children" : [				    			
+							    			{"name" : "2003-II"},
+							    			{"name" : "2018-I"}   			
+							    		]},
+					    			{"name" : "Sub Campeón",
+							    		"children" : [				    			
+							    			{"name" : 1957},
+							    			{"name" : 1981},
+							    			{"name" : 1982},
+							    			{"name" : "2006-II"},
+							    			{"name" : "2010-II"},
+							    			{"name" : "2016-II"}				    			
+							    		]
+							    	}
+					    		]
+					    	},
+			    			{"name" : "Copa",
+					    		"children" : [		    			
+							    	{"name" : "Campeón",
+							    		"children" : [
+							    			{"name" : 2014}
+							    		]
+							    	}
+					    		]
+					    	}
+			    		]
+			    	}
+		    	]
+		    },
+		    { "name" : "Valle del Cauca",
+		      "children": [
+		        {"name" : "América de Cali",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 1979},
+						    			{"name" : 1982},
+						    			{"name" : 1983},
+						    			{"name" : 1984},
+						    			{"name" : 1985},
+						    			{"name" : 1986},
+						    			{"name" : 1990},
+						    			{"name" : 1992},
+						    			{"name" : "1996/97"},
+						    			{"name" : 2000},
+						    			{"name" : 2001},
+						    			{"name" : "2002-I"},
+						    			{"name" : "2008-II"}
+						    		]},
+				    			{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 1960},
+						    			{"name" : 1969},
+						    			{"name" : 1987},
+						    			{"name" : 1991},
+						    			{"name" : 1995},
+						    			{"name" : 1999},
+						    			{"name" : "2008-I"}				    			
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]
+		    	},
+		        {"name" : "Deportivo Cali",
+		    		"children" : [
+		    			{"name" : "Liga",
+				    		"children" : [
+				    			{"name" : "Campeón",
+						    		"children" : [
+						    			{"name" : 1965},
+						    			{"name" : 1967},
+						    			{"name" : 1969},
+						    			{"name" : 1970},
+						    			{"name" : 1974},
+						    			{"name" : "1995/96"},
+						    			{"name" : 1998},
+						    			{"name" : "2005-II"},
+						    			{"name" : "2015-I"}
+						    		]},
+				    			{"name" : "Sub Campeón",
+						    		"children" : [
+						    			{"name" : 1949},
+						    			{"name" : 1962},
+						    			{"name" : 1968},
+						    			{"name" : 1972},
+						    			{"name" : 1976},
+						    			{"name" : 1977},
+						    			{"name" : 1978},
+						    			{"name" : 1980},
+						    			{"name" : 1985},
+						    			{"name" : 1986},
+						    			{"name" : "2003-II"},
+						    			{"name" : "2006-I"},
+						    			{"name" : "2013-II"},
+						    			{"name" : "2017-I"}
+						    		]
+						    	}
+				    		]
+				    	}
+		    		]}
+		      ]
+		    }    
+		  ]
+		};
+
+		// Set the dimensions and margins of the diagram
+		var margin = {top: 20, right: 20, bottom: 30, left: 90},
+		    width = 1100 - margin.left - margin.right,
+		    height = 900 - margin.top - margin.bottom;
+
+		// append the svg object to the body of the page
+		// appends a 'group' element to 'svg'
+		// moves the 'group' element to the top left margin
+		var svg = d3.select("body").append("svg")
+		    .attr("width", width + margin.right + margin.left)
+		    .attr("height", height + margin.top + margin.bottom)
+		  .append("g")
+		    .attr("transform", "translate("
+		          + margin.left + "," + margin.top + ")");
+
+		var i = 0,
+		    duration = 750,
+		    root;
+
+		// declares a tree layout and assigns the size
+		var treemap = d3.tree().size([height, width]);
+
+		// Assigns parent, children, height, depth
+		root = d3.hierarchy(treeData, function(d) { return d.children; });
+		root.x0 = height / 2;
+		root.y0 = 0;
+
+		// Collapse after the second level
+		root.children.forEach(collapse);
+
+		update(root);
+
+		// Collapse the node and all it's children
+		function collapse(d) {
+		  if(d.children) {
+		    d._children = d.children
+		    d._children.forEach(collapse)
+		    d.children = null
+		  }
+		}
+
+		function update(source) {
+
+		  // Assigns the x and y position for the nodes
+		  var treeData = treemap(root);
+
+		  // Compute the new tree layout.
+		  var nodes = treeData.descendants(),
+		      links = treeData.descendants().slice(1);
+
+		  // Normalize for fixed-depth.
+		  nodes.forEach(function(d){ d.y = d.depth * 180});
+
+		  // ****************** Nodes section ***************************
+
+		  // Update the nodes...
+		  var node = svg.selectAll('g.node')
+		      .data(nodes, function(d) {return d.id || (d.id = ++i); });
+
+		  // Enter any new modes at the parent's previous position.
+		  var nodeEnter = node.enter().append('g')
+		      .attr('class', 'node')
+		      .attr("transform", function(d) {
+		        return "translate(" + source.y0 + "," + source.x0 + ")";
+		    })
+		    .on('click', click);
+
+		  // Add Circle for the nodes
+		  nodeEnter.append('circle')
+		      .attr('class', 'node')
+		      .attr('r', 1e-6)
+		      .style("fill", function(d) {
+		          return d._children ? "lightsteelblue" : "#fff";
+		      });
+
+		  // Add labels for the nodes
+		  nodeEnter.append('text')
+		      .attr("dy", ".35em")
+		      .attr("x", function(d) {
+		          return d.children || d._children ? -13 : 13;
+		      })
+		      .attr("text-anchor", function(d) {
+		          return d.children || d._children ? "end" : "start";
+		      })
+		      .text(function(d) { return d.data.name; });
+
+		  // UPDATE
+		  var nodeUpdate = nodeEnter.merge(node);
+
+		  // Transition to the proper position for the node
+		  nodeUpdate.transition()
+		    .duration(duration)
+		    .attr("transform", function(d) { 
+		        return "translate(" + d.y + "," + d.x + ")";
+		     });
+
+		  // Update the node attributes and style
+		  nodeUpdate.select('circle.node')
+		    .attr('r', 10)
+		    .style("fill", function(d) {
+		        return d._children ? "lightsteelblue" : "#fff";
+		    })
+		    .attr('cursor', 'pointer');
+
+
+		  // Remove any exiting nodes
+		  var nodeExit = node.exit().transition()
+		      .duration(duration)
+		      .attr("transform", function(d) {
+		          return "translate(" + source.y + "," + source.x + ")";
+		      })
+		      .remove();
+
+		  // On exit reduce the node circles size to 0
+		  nodeExit.select('circle')
+		    .attr('r', 1e-6);
+
+		  // On exit reduce the opacity of text labels
+		  nodeExit.select('text')
+		    .style('fill-opacity', 1e-6);
+
+		  // ****************** links section ***************************
+
+		  // Update the links...
+		  var link = svg.selectAll('path.link')
+		      .data(links, function(d) { return d.id; });
+
+		  // Enter any new links at the parent's previous position.
+		  var linkEnter = link.enter().insert('path', "g")
+		      .attr("class", "link")
+		      .attr('d', function(d){
+		        var o = {x: source.x0, y: source.y0}
+		        return diagonal(o, o)
+		      });
+
+		  // UPDATE
+		  var linkUpdate = linkEnter.merge(link);
+
+		  // Transition back to the parent element position
+		  linkUpdate.transition()
+		      .duration(duration)
+		      .attr('d', function(d){ return diagonal(d, d.parent) });
+
+		  // Remove any exiting links
+		  var linkExit = link.exit().transition()
+		      .duration(duration)
+		      .attr('d', function(d) {
+		        var o = {x: source.x, y: source.y}
+		        return diagonal(o, o)
+		      })
+		      .remove();
+
+		  // Store the old positions for transition.
+		  nodes.forEach(function(d){
+		    d.x0 = d.x;
+		    d.y0 = d.y;
+		  });
+
+		  // Creates a curved (diagonal) path from parent to the child nodes
+		  function diagonal(s, d) {
+
+		    path = `M ${s.y} ${s.x}
+		            C ${(s.y + d.y) / 2} ${s.x},
+		              ${(s.y + d.y) / 2} ${d.x},
+		              ${d.y} ${d.x}`
+
+		    return path
+		  }
+
+		  // Toggle children on click.
+		  function click(d) {
+		    if (d.children) {
+		        d._children = d.children;
+		        d.children = null;
+		      } else {
+		        d.children = d._children;
+		        d._children = null;
+		      }
+		    update(d);
+		  }
+		}
+	</script>
+
+	<div>
+		<h2>Abstracción</h2>
+	    <p><b>What?</b></p>
+	    <ul>	      
+	      <li><b>Dataset type:</b> Temporal</li>
+	      <li><b>Nodos</b>
+	        <ul>
+	          <li><b>Departamento:</b> Categórico</li>
+	          <li><b>Equipo:</b> Categórico</li>
+	          <li><b>Campeonato:</b> Categórico</li>
+	          <li><b>Posición:</b> Categórico</li>
+	          <li><b>Año titulo:</b> Categórico</li>
+	        </ul>
+	      </li>
+	    </ul>
+	    </br>
+	    <p><b>Why?</b></p>
+	    <ul>
+	      <li><b>Tarea principal:</b> Explorar la distribución de los campeonatos por equipo y departamento. <b>[Tamara: Explore, Distribution]</b></li>
+	    </ul>
+	    </br>
+	    <p><b>How?</b></p>
+	    <ul>
+	      <li><b>Tarea</b>
+	        <ul>
+	          <li><b>Encode</b>
+	            <ul>
+	              <li>Separate
+	            </ul>
+	          <li><b>Marcas</b>
+	            <ul>
+	              <li>Puntos <b>-></b> Cada punto representa un nodo el cual puede hacer referencia a un departamento, equipo, campeonato, posición o año del título obtenido.</li>
+	              <li>Líneas <b>-></b> Cada línea representa un link el cual hace referencia a la conexión que existe entre los nodos y su jerarquia.</li>
+	            </ul>
+	          </li>
+	          <li><b>Canales:</b>
+	            <ul>
+	              <li>Tono de color para categorizar si un nodo tiene o no tiene hijos. <b>[Color hue]</b></li>
+	              <li>Posición no alineada para diferencia el nivel en el que se encuentra el nodo. <b>[Position on unaligned scale]</b></li>
+	            </ul>
+	          </li>
+	        </ul>
+	      </li>
+	    </ul>
+	    </br>
+	    <p><b>Insights encontrados</b></p>
+	    <ul>
+	      <li>Nacional es el equipo más ganados en los ultimos años.</li>
+	      </br>
+	      <li>De todos los departamentos que participan actualmente, Córdoba es el único que ningúno de sus equipos ha obtenido un compeonato o subcampeonato.</li>
+	    </ul>
+    </div>
+</body>
